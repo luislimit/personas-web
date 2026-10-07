@@ -1,0 +1,69 @@
+@baseUrl = http://localhost:8085
+@token = PEGAR_TOKEN
+@contextoId = 1
+
+### Crear persona
+POST {{baseUrl}}/api/entidades
+Authorization: Bearer {{token}}
+X-Contexto-Id: {{contextoId}}
+Content-Type: application/json
+
+{
+  "codigoTipo": "PERSONA",
+  "nombre": "Persona de prueba",
+  "persona": {
+    "nombre": "Persona",
+    "primerApellido": "Prueba",
+    "fechaNacimiento": "1990-01-01"
+  }
+}
+
+### Añadir correo preferido
+POST {{baseUrl}}/api/entidades/1/contactos
+Authorization: Bearer {{token}}
+X-Contexto-Id: {{contextoId}}
+Content-Type: application/json
+
+{
+  "tipo": "CORREO",
+  "valor": "persona@example.com",
+  "preferido": true
+}
+
+### Crear relación
+POST {{baseUrl}}/api/entidades/1/relaciones
+Authorization: Bearer {{token}}
+X-Contexto-Id: {{contextoId}}
+Content-Type: application/json
+
+{
+  "entidadDestinoId": 2,
+  "codigoTipoRelacion": "PADRE_HIJO",
+  "estado": "ACTIVO"
+}
+
+### Crear cuenta
+POST {{baseUrl}}/api/cuentas
+Authorization: Bearer {{token}}
+X-Contexto-Id: {{contextoId}}
+Content-Type: application/json
+
+{
+  "personaEntidadId": 1,
+  "nombreUsuario": "persona.test",
+  "hashContrasena": "{noop}demo",
+  "preferido": true
+}
+
+### Asignar contexto
+POST {{baseUrl}}/api/cuentas/1/contextos
+Authorization: Bearer {{token}}
+X-Contexto-Id: {{contextoId}}
+Content-Type: application/json
+
+{
+  "entidadContextoId": 1,
+  "codigoRol": "AUTOSERVICIO",
+  "alcance": "RELACIONADOS",
+  "habilitado": true
+}

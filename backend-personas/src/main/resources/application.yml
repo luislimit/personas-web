@@ -1,0 +1,47 @@
+spring:
+  application:
+    name: gestion-personas-api
+
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/gestion_personas?useUnicode=true&characterEncoding=utf8&serverTimezone=Europe/Madrid&allowPublicKeyRetrieval=true&useSSL=false}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          time_zone: Europe/Madrid
+
+server:
+  port: ${SERVER_PORT:8080}
+  error:
+    include-message: always
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: alpha
+    tags-sorter: alpha
+    display-request-duration: true
+
+logging:
+  level:
+    org.hibernate.SQL: INFO
+
+app:
+  security:
+    session-hours: ${APP_SESSION_HOURS:12}
+
+  mfa:
+    challenge-minutes: ${APP_MFA_CHALLENGE_MINUTES:10}
+    max-attempts: ${APP_MFA_MAX_ATTEMPTS:5}
+    max-validity-minutes: ${APP_MFA_MAX_VALIDITY_MINUTES:480}
+    link-base-url: ${APP_MFA_LINK_BASE_URL:http://localhost:5173/mfa/verificar}

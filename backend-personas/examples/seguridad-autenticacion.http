@@ -1,0 +1,35 @@
+@baseUrl = http://localhost:8085
+
+### 1. Iniciar sesión con usuario demo
+POST {{baseUrl}}/api/autenticacion/iniciar-sesion
+Content-Type: application/json
+
+{
+  "nombreUsuario": "carlos",
+  "contrasena": "demo"
+}
+
+### Copia tokenAcceso y un entidadContextoId de la respuesta
+@token = PEGAR_TOKEN
+@contextoId = 2
+
+### 2. Usuario autenticado
+GET {{baseUrl}}/api/autenticacion/yo
+Authorization: Bearer {{token}}
+
+### 3. Contextos disponibles
+GET {{baseUrl}}/api/autenticacion/contextos
+Authorization: Bearer {{token}}
+
+### 4. Activar/inspeccionar contexto
+POST {{baseUrl}}/api/autenticacion/contextos/{{contextoId}}/activar
+Authorization: Bearer {{token}}
+
+### 5. Endpoint protegido
+GET {{baseUrl}}/api/entidades
+Authorization: Bearer {{token}}
+X-Contexto-Id: {{contextoId}}
+
+### 6. Cerrar sesión
+POST {{baseUrl}}/api/autenticacion/cerrar-sesion
+Authorization: Bearer {{token}}

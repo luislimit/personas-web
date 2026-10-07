@@ -1,0 +1,70 @@
+### Crear calendario
+POST http://localhost:8085/api/calendars
+Content-Type: application/json
+
+{
+  "ownerEntityId": 1,
+  "name": "Calendario de prueba",
+  "description": "Prueba de CRUD y recurrencia",
+  "defaultColor": "#3366CC",
+  "timezone": "Europe/Madrid"
+}
+
+### Crear evento semanal recurrente lunes y miércoles
+POST http://localhost:8085/api/calendars/2/events
+Content-Type: application/json
+
+{
+  "title": "Entrenamiento Infantil A",
+  "description": "Entrenamiento de pista",
+  "startsAt": "2026-10-05T18:00:00",
+  "endsAt": "2026-10-05T19:30:00",
+  "timezone": "Europe/Madrid",
+  "recurrence": {
+    "frequency": "WEEKLY",
+    "interval": 1,
+    "daysOfWeek": ["MO", "WE"],
+    "until": "2026-12-20T23:59:59",
+    "timezone": "Europe/Madrid"
+  }
+}
+
+### Consultar ocurrencias en rango
+GET http://localhost:8085/api/calendars/2/events?from=2026-10-01T00:00:00&to=2026-11-01T00:00:00
+
+### Modificar solo una ocurrencia
+# Sustituye 1 por el seriesEventId devuelto por el POST/GET.
+PATCH http://localhost:8085/api/events/1?occurrenceStartsAt=2026-10-07T18:00:00&scope=SINGLE
+Content-Type: application/json
+
+{
+  "startsAt": "2026-10-07T19:00:00",
+  "endsAt": "2026-10-07T20:30:00",
+  "title": "Entrenamiento Infantil A - cambio puntual"
+}
+
+### Modificar esta ocurrencia y las siguientes
+PATCH http://localhost:8085/api/events/1?occurrenceStartsAt=2026-10-12T18:00:00&scope=THIS_AND_FOLLOWING
+Content-Type: application/json
+
+{
+  "startsAt": "2026-10-12T18:30:00",
+  "endsAt": "2026-10-12T20:00:00"
+}
+
+### Modificar toda la serie
+PATCH http://localhost:8085/api/events/1?scope=ALL
+Content-Type: application/json
+
+{
+  "title": "Entrenamiento Infantil A - temporada"
+}
+
+### Eliminar solo una ocurrencia
+DELETE http://localhost:8085/api/events/1?occurrenceStartsAt=2026-10-14T18:00:00&scope=SINGLE
+
+### Eliminar esta ocurrencia y las siguientes
+DELETE http://localhost:8085/api/events/1?occurrenceStartsAt=2026-11-02T18:00:00&scope=THIS_AND_FOLLOWING
+
+### Eliminar toda la serie
+DELETE http://localhost:8085/api/events/1?scope=ALL

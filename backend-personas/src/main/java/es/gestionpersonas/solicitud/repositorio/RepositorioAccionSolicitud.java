@@ -1,0 +1,1 @@
+package es.gestionpersonas.solicitud.repositorio; import es.gestionpersonas.solicitud.modelo.AccionSolicitud; import org.springframework.data.jpa.repository.JpaRepository; import java.util.List; public interface RepositorioAccionSolicitud extends JpaRepository<AccionSolicitud,Long>{ List<AccionSolicitud> findByRequestIdOrderByCreatedAtAsc(Long requestId); }

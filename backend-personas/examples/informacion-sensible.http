@@ -1,0 +1,33 @@
+@baseUrl = http://localhost:8085
+@token = PEGAR_TOKEN
+@contextoId = 1
+
+### Documento sensible económico
+POST {{baseUrl}}/api/documentos
+Authorization: Bearer {{token}}
+X-Contexto-Id: {{contextoId}}
+Content-Type: application/json
+
+{
+  "entidadPropietariaId": 1,
+  "codigoTipo": "FACTURA",
+  "codigoClasificacion": "SENSIBLE",
+  "codigoCategoriaSensible": "FINANCIERA",
+  "nombre": "Información económica",
+  "referenciaArchivo": "demo://documentos/economico.pdf"
+}
+
+### Documento sensible de seguridad
+POST {{baseUrl}}/api/documentos
+Authorization: Bearer {{token}}
+X-Contexto-Id: {{contextoId}}
+Content-Type: application/json
+
+{
+  "entidadPropietariaId": 1,
+  "codigoTipo": "IDENTIDAD",
+  "codigoClasificacion": "SENSIBLE",
+  "codigoCategoriaSensible": "SEGURIDAD",
+  "nombre": "Informe de seguridad",
+  "referenciaArchivo": "demo://documentos/seguridad.pdf"
+}

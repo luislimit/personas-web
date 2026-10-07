@@ -1,0 +1,8 @@
+{
+  "folders": [
+    { "path": "backend-personas" }
+  ],
+  "settings": {
+    "java.configuration.updateBuildConfiguration": "automatic"
+  }
+}

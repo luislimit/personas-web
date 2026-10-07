@@ -1,0 +1,33 @@
+### 1. Login demo (los datos seed usan {noop}demo)
+POST http://localhost:8085/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "carlos",
+  "password": "demo"
+}
+
+### Copiar accessToken de la respuesta
+@token = PEGAR_TOKEN
+@contextId = 2
+
+### 2. Quién soy
+GET http://localhost:8085/api/auth/me
+Authorization: Bearer {{token}}
+
+### 3. Contextos disponibles
+GET http://localhost:8085/api/auth/contexts
+Authorization: Bearer {{token}}
+
+### 4. Activar/inspeccionar un contexto
+POST http://localhost:8085/api/auth/contexts/{{contextId}}/activate
+Authorization: Bearer {{token}}
+
+### 5. Endpoint protegido
+GET http://localhost:8085/api/entities
+Authorization: Bearer {{token}}
+X-Context-Id: {{contextId}}
+
+### 6. Logout
+POST http://localhost:8085/api/auth/logout
+Authorization: Bearer {{token}}

@@ -1,0 +1,53 @@
+### Health
+GET http://localhost:8080/api/system/health
+
+### Todas las entidades
+GET http://localhost:8080/api/entities
+
+### Solo personas
+GET http://localhost:8080/api/entities?type=PERSON
+
+### Buscar por nombre
+GET http://localhost:8080/api/entities?name=mart
+
+### Detalle de entidad
+GET http://localhost:8080/api/entities/1
+
+### Contactos
+GET http://localhost:8080/api/entities/5/contacts
+
+### Relaciones
+GET http://localhost:8080/api/entities/5/relations
+
+### Cuentas
+GET http://localhost:8080/api/entities/5/accounts
+
+### Calendarios
+GET http://localhost:8080/api/calendars
+
+### Eventos
+GET http://localhost:8080/api/calendars/2/events
+
+### Solicitudes
+GET http://localhost:8080/api/requests
+
+### Crear solicitud (ajusta IDs a los de tu BD)
+POST http://localhost:8080/api/requests
+Content-Type: application/json
+
+{
+  "requestTypeCode": "GENERAL_QUERY",
+  "subject": "Consulta de prueba desde API",
+  "description": "Solicitud creada desde VS Code / Swagger",
+  "createdByEntityId": 5,
+  "participants": [
+    {
+      "entityId": 5,
+      "role": "REQUESTER"
+    },
+    {
+      "entityId": 1,
+      "role": "RECIPIENT"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+@baseUrl = http://localhost:8085
+@token = TOKEN
+@contextoId = 1
+
+### Crear borrador
+POST {{baseUrl}}/api/documentos
+Authorization: Bearer {{token}}
+X-Contexto-Id: {{contextoId}}
+Content-Type: application/json
+
+{
+  "codigoTipo": "LICENCIA",
+  "entidadEmisoraId": 1,
+  "entidadDestinatariaId": 5,
+  "nombre": "Licencia corregida",
+  "referenciaArchivo": "demo://licencias/licencia-corregida.pdf",
+  "fechaDocumento": "2026-10-04"
+}
+
+### Publicar
+PATCH {{baseUrl}}/api/documentos/ID
+Authorization: Bearer {{token}}
+X-Contexto-Id: {{contextoId}}
+Content-Type: application/json
+
+{ "estado": "DISPONIBLE" }
+
+### Acceder al contenido: registra acceso y devuelve la referencia del archivo
+POST {{baseUrl}}/api/documentos/ID/acceder
+Authorization: Bearer {{token}}
+X-Contexto-Id: {{contextoId}}
+
+### Historial de accesos
+GET {{baseUrl}}/api/documentos/ID/accesos
+Authorization: Bearer {{token}}
+X-Contexto-Id: {{contextoId}}
+
+### Crear sustituto: el documento anterior debe haber sido accedido y ser del mismo tipo
+POST {{baseUrl}}/api/documentos
+Authorization: Bearer {{token}}
+X-Contexto-Id: {{contextoId}}
+Content-Type: application/json
+
+{
+  "codigoTipo": "LICENCIA",
+  "entidadEmisoraId": 1,
+  "entidadDestinatariaId": 5,
+  "nombre": "Licencia sustituta",
+  "referenciaArchivo": "demo://licencias/licencia-v2.pdf",
+  "fechaDocumento": "2026-10-04",
+  "sustituyeADocumentoId": ID_ANTERIOR
+}

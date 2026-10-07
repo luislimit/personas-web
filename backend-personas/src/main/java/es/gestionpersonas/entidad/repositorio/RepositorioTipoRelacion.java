@@ -1,0 +1,1 @@
+package es.gestionpersonas.entidad.repositorio; import es.gestionpersonas.entidad.modelo.TipoRelacion; import org.springframework.data.jpa.repository.JpaRepository; import java.util.Optional; public interface RepositorioTipoRelacion extends JpaRepository<TipoRelacion,Long>{ Optional<TipoRelacion> findByCode(String code); }

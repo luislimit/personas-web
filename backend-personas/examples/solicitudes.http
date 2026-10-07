@@ -1,0 +1,36 @@
+@baseUrl = http://localhost:8085
+@token = PEGAR_TOKEN
+@contextoId = 1
+
+### Listar solicitudes
+GET {{baseUrl}}/api/solicitudes
+Authorization: Bearer {{token}}
+X-Contexto-Id: {{contextoId}}
+
+### Crear solicitud
+POST {{baseUrl}}/api/solicitudes
+Authorization: Bearer {{token}}
+X-Contexto-Id: {{contextoId}}
+Content-Type: application/json
+
+{
+  "codigoTipoSolicitud": "CONSULTA_GENERAL",
+  "asunto": "Consulta de prueba desde API",
+  "descripcion": "Solicitud creada desde VS Code / Swagger",
+  "creadoPorEntidadId": 5,
+  "participantes": [
+    { "entidadId": 5, "rolParticipante": "SOLICITANTE" },
+    { "entidadId": 1, "rolParticipante": "DESTINATARIO" }
+  ]
+}
+
+### Añadir mensaje
+POST {{baseUrl}}/api/solicitudes/1/mensajes
+Authorization: Bearer {{token}}
+X-Contexto-Id: {{contextoId}}
+Content-Type: application/json
+
+{
+  "entidadRemitenteId": 5,
+  "mensaje": "Mensaje de prueba"
+}

@@ -1,0 +1,53 @@
+#!/bin/sh
+set -eu
+
+BASE_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+PROP_FILE="$BASE_DIR/.mvn/wrapper/maven-wrapper.properties"
+
+if [ ! -f "$PROP_FILE" ]; then
+  echo "ERROR: Missing $PROP_FILE" >&2
+  exit 1
+fi
+
+DISTRIBUTION_URL=$(sed -n 's/^distributionUrl=//p' "$PROP_FILE" | tail -n 1)
+if [ -z "$DISTRIBUTION_URL" ]; then
+  echo "ERROR: distributionUrl not configured in $PROP_FILE" >&2
+  exit 1
+fi
+
+ARCHIVE_NAME=$(basename "$DISTRIBUTION_URL")
+MAVEN_DIR_NAME=${ARCHIVE_NAME%-bin.zip}
+WRAPPER_HOME="${MAVEN_USER_HOME:-$HOME/.m2}/wrapper/dists/$MAVEN_DIR_NAME"
+MAVEN_HOME="$WRAPPER_HOME/$MAVEN_DIR_NAME"
+ARCHIVE="$WRAPPER_HOME/$ARCHIVE_NAME"
+
+if [ ! -x "$MAVEN_HOME/bin/mvn" ]; then
+  mkdir -p "$WRAPPER_HOME"
+  echo "Downloading Maven from $DISTRIBUTION_URL"
+
+  if command -v curl >/dev/null 2>&1; then
+    curl -fL "$DISTRIBUTION_URL" -o "$ARCHIVE"
+  elif command -v wget >/dev/null 2>&1; then
+    wget -O "$ARCHIVE" "$DISTRIBUTION_URL"
+  else
+    echo "ERROR: curl or wget is required for the first Maven Wrapper execution." >&2
+    exit 1
+  fi
+
+  TMP_DIR="$WRAPPER_HOME/.unpack-$$"
+  rm -rf "$TMP_DIR"
+  mkdir -p "$TMP_DIR"
+
+  if command -v unzip >/dev/null 2>&1; then
+    unzip -q "$ARCHIVE" -d "$TMP_DIR"
+  else
+    echo "ERROR: unzip is required for the first Maven Wrapper execution." >&2
+    exit 1
+  fi
+
+  rm -rf "$MAVEN_HOME"
+  mv "$TMP_DIR/$MAVEN_DIR_NAME" "$MAVEN_HOME"
+  rm -rf "$TMP_DIR" "$ARCHIVE"
+fi
+
+exec "$MAVEN_HOME/bin/mvn" "$@"

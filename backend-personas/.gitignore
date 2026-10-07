@@ -1,0 +1,11 @@
+target/
+.classpath
+.project
+.settings/
+.vscode/*.log
+.idea/
+*.iml
+.env
+
+# Configuracion local de MySQL
+config/local.env
